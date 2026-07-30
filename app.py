@@ -17,9 +17,15 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DOWNLOAD_DIR = os.path.join(BASE_DIR, "downloads")
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
-print("Loading Whisper model, please wait...")
-model = whisper.load_model("tiny")
-print("Whisper Model Loaded Successfully!")
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        print("Loading Whisper model, please wait...")
+        model = whisper.load_model("tiny")
+        print("Whisper Model Loaded Successfully!")
+    return model
 
 QUALITY_MAP = {
     "720p": "1280:720",
@@ -311,7 +317,7 @@ def process_video():
         if language in ("te", "en"):
             whisper_kwargs["language"] = language
 
-        result = model.transcribe(cropped_path, **whisper_kwargs)
+       result = get_model().transcribe(cropped_path, **whisper_kwargs)
         write_srt(result["segments"], srt_path)
 
         detected_lang = result.get("language", language)
