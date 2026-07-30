@@ -315,11 +315,10 @@ def process_video():
         # 5. Transcribe with Whisper
         whisper_kwargs = {"fp16": False}
         if language in ("te", "en"):
-        whisper_kwargs["language"] = language
+            whisper_kwargs["language"] = language
         result = get_model().transcribe(cropped_path, **whisper_kwargs)
         detected_lang = result.get("language", language)
         font_name = "Noto Sans Telugu" if detected_lang == "te" else "Arial"
-
         # 6. Adaptive color grade based on measured brightness
         brightness = measure_brightness(cropped_path)
         color_grade_filter = adaptive_grade_filter(brightness)
