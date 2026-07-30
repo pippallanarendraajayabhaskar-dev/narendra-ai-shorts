@@ -1,0 +1,6 @@
+flask
+flask-cors
+yt-dlp
+openai-whisper
+opencv-python-headless
+numpy
